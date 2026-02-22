@@ -16,7 +16,8 @@ namespace FI.WebAtividadeEntrevista
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                // Alterado para abrir a aplicação já na página de clientes
+                defaults: new { controller = "Cliente", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
