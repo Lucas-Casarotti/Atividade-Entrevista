@@ -2,13 +2,14 @@
 $(document).ready(function () {
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
-        $('#formCadastro #CEP').val(obj.CEP);
-        $('#formCadastro #Email').val(obj.Email);
         $('#formCadastro #Sobrenome').val(obj.Sobrenome);
+        $('#formCadastro #CPF').val(obj.CPF);
         $('#formCadastro #Nacionalidade').val(obj.Nacionalidade);
+        $('#formCadastro #CEP').val(obj.CEP);
         $('#formCadastro #Estado').val(obj.Estado);
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
+        $('#formCadastro #Email').val(obj.Email);
         $('#formCadastro #Telefone').val(obj.Telefone);
     }
 
@@ -20,13 +21,14 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 "NOME": $(this).find("#Nome").val(),
-                "CEP": $(this).find("#CEP").val(),
-                "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
+                "CPF": $(this).find("#CPF").val(),
                 "Nacionalidade": $(this).find("#Nacionalidade").val(),
+                "CEP": $(this).find("#CEP").val(),
                 "Estado": $(this).find("#Estado").val(),
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
+                "Email": $(this).find("#Email").val(),
                 "Telefone": $(this).find("#Telefone").val()
             },
             error:

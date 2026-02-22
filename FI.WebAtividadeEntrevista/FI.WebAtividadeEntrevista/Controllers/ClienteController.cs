@@ -3,7 +3,6 @@ using WebAtividadeEntrevista.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 
@@ -38,21 +37,26 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+                if (bo.VerificarExistencia(model.CPF, null))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado");
+                }
+
                 model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
+                {
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
+                    CPF = model.CPF,
+                    Nacionalidade = model.Nacionalidade,
+                    CEP = model.CEP,
+                    Estado = model.Estado,
+                    Cidade = model.Cidade,
+                    Logradouro = model.Logradouro,
+                    Email = model.Email,
                     Telefone = model.Telefone
                 });
 
-           
                 return Json("Cadastro efetuado com sucesso");
             }
         }
@@ -73,17 +77,24 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                if (bo.VerificarExistencia(model.CPF, model.Id))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado");
+                }
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
+                    CPF = model.CPF,
+                    Nacionalidade = model.Nacionalidade,
+                    CEP = model.CEP,
+                    Estado = model.Estado,
+                    Cidade = model.Cidade,
+                    Logradouro = model.Logradouro,
+                    Email = model.Email,
                     Telefone = model.Telefone
                 });
                                
@@ -103,14 +114,15 @@ namespace WebAtividadeEntrevista.Controllers
                 model = new ClienteModel()
                 {
                     Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
+                    CPF = cliente.CPF,
+                    Nacionalidade = cliente.Nacionalidade,
+                    CEP = cliente.CEP,
+                    Estado = cliente.Estado,
+                    Cidade = cliente.Cidade,
+                    Logradouro = cliente.Logradouro,
+                    Email = cliente.Email,
                     Telefone = cliente.Telefone
                 };
 

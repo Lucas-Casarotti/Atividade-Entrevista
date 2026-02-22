@@ -9,7 +9,7 @@ namespace FI.AtividadeEntrevista.BLL
     public class BoCliente
     {
         /// <summary>
-        /// Inclui um novo cliente
+        /// Incluir um novo cliente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
         public long Incluir(DML.Cliente cliente)
@@ -19,7 +19,7 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// Altera um cliente
+        /// Alterar um cliente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
         public void Alterar(DML.Cliente cliente)
@@ -29,7 +29,7 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// Consulta o cliente pelo id
+        /// Consultar o cliente pelo id
         /// </summary>
         /// <param name="id">id do cliente</param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// Lista os clientes
+        /// Listar os clientes
         /// </summary>
         public List<DML.Cliente> Listar()
         {
@@ -60,7 +60,7 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// Lista os clientes
+        /// Listar os clientes
         /// </summary>
         public List<DML.Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
@@ -69,14 +69,14 @@ namespace FI.AtividadeEntrevista.BLL
         }
 
         /// <summary>
-        /// VerificaExistencia
+        /// Verificar a existencia do CPF
         /// </summary>
         /// <param name="CPF"></param>
         /// <returns></returns>
-        public bool VerificarExistencia(string CPF)
+        public bool VerificarExistencia(string CPF, long? id)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.VerificarExistencia(CPF);
+            return cli.VerificarExistencia(CPF, id);
         }
     }
 }
