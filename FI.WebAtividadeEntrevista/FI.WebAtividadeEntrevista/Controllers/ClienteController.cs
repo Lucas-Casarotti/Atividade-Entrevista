@@ -25,7 +25,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -65,7 +65,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-       
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -97,7 +97,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Email = model.Email,
                     Telefone = model.Telefone
                 });
-                               
+
                 return Json("Cadastro alterado com sucesso");
             }
         }
@@ -126,7 +126,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = cliente.Telefone
                 };
 
-            
+
             }
 
             return View(model);
@@ -155,6 +155,22 @@ namespace WebAtividadeEntrevista.Controllers
             }
             catch (Exception ex)
             {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult Excluir(long id)
+        {
+            try
+            {
+                BoCliente bo = new BoCliente();
+                bo.Excluir(id);
+                return Json(new { Result = "OK", Message = "Cliente excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 400;
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
