@@ -57,7 +57,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone
                 });
 
-                return Json("Cadastro efetuado com sucesso");
+                Session["IdCliente"] = model.Id;
+                return Json(new { mensagem = "Cadastro efetuado com sucesso", idCliente = model.Id });
             }
         }
 
@@ -98,6 +99,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone
                 });
 
+                Session["IdCliente"] = model.Id;
                 return Json("Cadastro alterado com sucesso");
             }
         }
@@ -125,10 +127,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Email = cliente.Email,
                     Telefone = cliente.Telefone
                 };
-
-
             }
-
+            Session["IdCliente"] = cliente.Id;
             return View(model);
         }
 
@@ -174,5 +174,110 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
         }
+
+        #region Beneficiários
+        [HttpPost]
+        public JsonResult IncluirBeneficiario(BeneficiarioModel model)
+        {
+            BoBeneficiario bo = new BoBeneficiario();
+
+            model.IdCliente = Convert.ToInt32(Session["IdCliente"]);
+
+            if (!this.ModelState.IsValid)
+            {
+                List<string> erros = (from item in ModelState.Values
+                                      from error in item.Errors
+                                      select error.ErrorMessage).ToList();
+
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, erros));
+            }
+            else
+            {
+                if (bo.VerificarExistencia(model.CPF, null, model.IdCliente))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado");
+                }
+
+                model.Id = bo.Incluir(new Beneficiario()
+                {
+                    CPF = model.CPF,
+                    Nome = model.Nome,
+                    IdCliente = model.IdCliente
+                });
+
+                return Json("Cadastro efetuado com sucesso");
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ListarBeneficiario(long id)
+        {
+            try
+            {
+                BoBeneficiario bo = new BoBeneficiario();
+                var lista = bo.Listar(id);
+                return Json(new { Result = "OK", Records = lista });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult ExcluirBeneficiario(long id)
+        {
+            try
+            {
+                BoBeneficiario bo = new BoBeneficiario();
+                bo.Excluir(id);
+                return Json(new { Result = "OK", Message = "Cliente excluído com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 400;
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AlterarBeneficiario(BeneficiarioModel model)
+        {
+            BoBeneficiario bo = new BoBeneficiario();
+
+            model.IdCliente = Convert.ToInt32(Session["IdCliente"]);
+
+            if (!this.ModelState.IsValid)
+            {
+                List<string> erros = (from item in ModelState.Values
+                                      from error in item.Errors
+                                      select error.ErrorMessage).ToList();
+
+                Response.StatusCode = 400;
+                return Json(string.Join(Environment.NewLine, erros));
+            }
+            else
+            {
+                if (bo.VerificarExistencia(model.CPF, model.Id, model.IdCliente))
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF já cadastrado");
+                }
+
+                bo.Alterar(new Beneficiario()
+                {
+                    Id = model.Id,
+                    CPF = model.CPF,
+                    Nome = model.Nome,
+                    IdCliente = model.IdCliente
+                });
+
+                return Json("Cadastro alterado com sucesso");
+            }
+        }
+        #endregion
     }
 }

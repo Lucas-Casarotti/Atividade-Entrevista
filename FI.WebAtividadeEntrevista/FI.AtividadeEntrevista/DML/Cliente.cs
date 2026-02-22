@@ -15,41 +15,6 @@ namespace FI.AtividadeEntrevista.DML
         /// Id
         /// </summary>
         public long Id { get; set; }
-        
-        /// <summary>
-        /// CEP
-        /// </summary>
-        public string CEP { get; set; }
-
-        /// <summary>
-        /// CPF
-        /// </summary>
-        public string CPF { get; set; }
-
-        /// <summary>
-        /// Cidade
-        /// </summary>
-        public string Cidade { get; set; }
-
-        /// <summary>
-        /// E-mail
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        /// Estado
-        /// </summary>
-        public string Estado { get; set; }
-
-        /// <summary>
-        /// Logradouro
-        /// </summary>
-        public string Logradouro { get; set; }
-
-        /// <summary>
-        /// Nacionalidade
-        /// </summary>
-        public string Nacionalidade { get; set; }
 
         /// <summary>
         /// Nome
@@ -60,6 +25,41 @@ namespace FI.AtividadeEntrevista.DML
         /// Sobrenome
         /// </summary>
         public string Sobrenome { get; set; }
+
+        /// <summary>
+        /// CPF
+        /// </summary>
+        public string CPF { get; set; }
+
+        /// <summary>
+        /// Nacionalidade
+        /// </summary>
+        public string Nacionalidade { get; set; }
+
+        /// <summary>
+        /// CEP
+        /// </summary>
+        public string CEP { get; set; }
+
+        /// <summary>
+        /// Estado
+        /// </summary>
+        public string Estado { get; set; }
+
+        /// <summary>
+        /// Cidade
+        /// </summary>
+        public string Cidade { get; set; }
+
+        /// <summary>
+        /// Logradouro
+        /// </summary>
+        public string Logradouro { get; set; }
+
+        /// <summary>
+        /// E-mail
+        /// </summary>
+        public string Email { get; set; }
 
         /// <summary>
         /// Telefone

@@ -37,9 +37,32 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
         /// <summary>
+        /// Alterar cliente
+        /// </summary>
+        /// <param name="cliente">Objeto de cliente</param>
+        internal void Alterar(DML.Cliente cliente)
+        {
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+            parametros.Add(new System.Data.SqlClient.SqlParameter("ID", cliente.Id));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", cliente.Nome));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Sobrenome", cliente.Sobrenome));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Nacionalidade", cliente.Nacionalidade));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CEP", cliente.CEP));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Estado", cliente.Estado));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Cidade", cliente.Cidade));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Logradouro", cliente.Logradouro));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
+
+            base.Executar("FI_SP_AltCliente", parametros);
+        }
+
+        /// <summary>
         /// Consultar o cliente pelo id
         /// </summary>
-        /// <param name="id">id do cliente</param>
+        /// <param name="Id">id do cliente</param>
         /// <returns></returns>
         internal DML.Cliente Consultar(long Id)
         {
@@ -54,20 +77,31 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
         /// <summary>
-        /// Verificar a existencia do CPF
+        /// Excluir Cliente
         /// </summary>
-        /// <param name="CPF"></param>
-        /// <returns></returns>
-        internal bool VerificarExistencia(string CPF, long? id)
+        /// <param name="Id">id do cliente</param>
+        internal void Excluir(long Id)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", CPF));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", id));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", Id));
 
-            DataSet ds = base.Consultar("FI_SP_VerificaCliente", parametros);
+            base.Executar("FI_SP_DelCliente", parametros);
+        }
 
-            return ds.Tables[0].Rows.Count > 0;
+        /// <summary>
+        /// Listar todos os clientes
+        /// </summary>
+        internal List<DML.Cliente> Listar()
+        {
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", 0));
+
+            DataSet ds = base.Consultar("FI_SP_ConsCliente", parametros);
+            List<DML.Cliente> cli = Converter(ds);
+
+            return cli;
         }
 
         /// <summary>
@@ -96,55 +130,20 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
         /// <summary>
-        /// Listar todos os clientes
+        /// Verificar a existencia do CPF
         /// </summary>
-        internal List<DML.Cliente> Listar()
+        /// <param name="CPF">CPF do client</param>
+        /// <returns></returns>
+        internal bool VerificarExistencia(string CPF, long? id)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", 0));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", CPF));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", id));
 
-            DataSet ds = base.Consultar("FI_SP_ConsCliente", parametros);
-            List<DML.Cliente> cli = Converter(ds);
+            DataSet ds = base.Consultar("FI_SP_VerificaCliente", parametros);
 
-            return cli;
-        }
-
-        /// <summary>
-        /// Incluir um novo cliente
-        /// </summary>
-        /// <param name="cliente">Objeto de cliente</param>
-        internal void Alterar(DML.Cliente cliente)
-        {
-            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
-
-            parametros.Add(new System.Data.SqlClient.SqlParameter("ID", cliente.Id));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", cliente.Nome));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Sobrenome", cliente.Sobrenome));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.CPF));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Nacionalidade", cliente.Nacionalidade));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("CEP", cliente.CEP));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Estado", cliente.Estado));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Cidade", cliente.Cidade));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Logradouro", cliente.Logradouro));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
-            
-            base.Executar("FI_SP_AltCliente", parametros);
-        }
-
-
-        /// <summary>
-        /// Excluir Cliente
-        /// </summary>
-        /// <param name="cliente">Objeto de cliente</param>
-        internal void Excluir(long Id)
-        {
-            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
-
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", Id));
-
-            base.Executar("FI_SP_DelCliente", parametros);
+            return ds.Tables[0].Rows.Count > 0;
         }
 
         private List<DML.Cliente> Converter(DataSet ds)
@@ -166,7 +165,7 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Logradouro = row.Field<string>("Logradouro");
                     cli.Email = row.Field<string>("Email");
                     cli.Telefone = row.Field<string>("Telefone");
-                    
+
                     lista.Add(cli);
                 }
             }

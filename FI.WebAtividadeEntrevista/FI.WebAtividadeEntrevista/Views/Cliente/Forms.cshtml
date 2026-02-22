@@ -1,5 +1,5 @@
-﻿
-<form id="formCadastro" method="post">
+﻿<form id="formCadastro" method="post">
+    <input type="hidden" id="IdCliente" name="IdCliente" value="@(Model != null ? Model.Id.ToString() : "")" />
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -80,12 +80,68 @@
 
     <div class="row">
         <div class="col-lg-12">
+            <div class="pull-left">
+                <button type="button" id="btnBeneficiarios" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalBenef" style="margin-right:8px;">Beneficiários</button>
+            </div>
             <div class="pull-right">
-                <button type="submit" class="btn btn-sm btn-success">Salvar</button>
-                @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
+                <button type="submit" id="btnSalvarCliente" class="btn btn-sm btn-success">Salvar</button>
+                @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger", style = "margin-left:8px;" })
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+</form>
+<form id="formCadastroBeneficiario" method="post">
+    <!-- Modal de Beneficiários -->
+    <div id="modalBenef" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Beneficiários</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-bottom: 20px;">
+                        <input type="hidden" id="IdBeneficiario" name="IdBeneficiario" />
+                        <div class="col-md-4">
+                            <label for="CPF_Beneficiario">CPF:</label>
+                            <input type="text" class="form-control" id="CPF_Beneficiario" name="CPF_Beneficiario" placeholder="Ex.: 010.011.111-00" maxlength="14">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="Nome_Beneficiario">Nome:</label>
+                            <input type="text" class="form-control" id="Nome_Beneficiario" name="Nome_Beneficiario" placeholder="Ex.: Maria" maxlength="50">
+                        </div>
+                        <div class="col-md-3">
+                            <label>&nbsp;</label>
+                            <button type="submit" id="btnIncluirBenef" class="btn btn-success btn-block">Incluir</button>
+                        </div>
+                    </div>
+
+                    <!-- Container com scroll para a tabela -->
+                    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px;">
+                        <table class="table table-bordered table-hover" id="tblBeneficiarios" style="margin-bottom: 0;">
+                            <thead style="position: sticky; top: 0; background-color: #f5f5f5; z-index: 10;">
+                                <tr>
+                                    <th width="30%">CPF</th>
+                                    <th width="40%">Nome</th>
+                                    <th width="30%" class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Beneficiários serão inseridos aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
-
-
 </form>
+@section scripts{
+    <script>    
+         var objCliente = @Html.Raw(Json.Encode(Model));
+    </script>    
+}

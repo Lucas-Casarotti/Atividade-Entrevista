@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -48,15 +44,6 @@ namespace FI.AtividadeEntrevista.BLL
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
             cli.Excluir(id);
-        }
-
-        /// <summary>
-        /// Listar os clientes
-        /// </summary>
-        public List<DML.Cliente> Listar()
-        {
-            DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Listar();
         }
 
         /// <summary>
