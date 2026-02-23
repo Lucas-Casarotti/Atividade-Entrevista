@@ -5,9 +5,13 @@
 Sistema web para gerenciamento completo de clientes e seus respectivos beneficiários, com foco em integridade de dados e validações de negócio.
 
 Principais Funcionalidades
+<br>
 • ✅ Gestão de Clientes: Fluxo completo de inclusão, alteração, exclusão e listagem.
+<br>
 • ✅ Gestão de Beneficiários: Vínculo de múltiplos beneficiários por cliente via modal.
+<br>
 • ✅ Validação de CPF: Algoritmo de validação implementado no Frontend e Backend.
+<br>
 • ✅ Unicidade de Registro: Bloqueio de CPFs duplicados para um mesmo cliente.
 
 🛠️ Tecnologias e Arquitetura
